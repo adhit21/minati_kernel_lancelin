@@ -1,0 +1,23 @@
+name: Clone Kernel and NetHunter Builder
+
+on:
+  workflow_dispatch:  # Bisa dijalankan manual lewat tab "Actions"
+
+jobs:
+  clone:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Kernel Source (Your Repo)
+      uses: actions/checkout@v4
+
+    - name: Clone NetHunter Kernel Builder
+      run: |
+        git clone https://gitlab.com/kalilinux/nethunter/build-scripts/kali-nethunter-kernel-builder.git nethunter-builder
+
+    - name: List Files (Check)
+      run: |
+        echo "Kernel source:"
+        ls -lah
+        echo "NetHunter Builder:"
+        ls -lah nethunter-builder
