@@ -1,0 +1,36 @@
+name: Build NetHunter Kernel for Lancelin
+
+on:
+  workflow_dispatch:  # Bisa dijalankan manual dari tab "Actions"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Setup Environment
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y bc bison flex libssl-dev build-essential git wget curl unzip
+
+    - name: Clone Kernel Source
+      run: |
+        git clone https://github.com/adhit21/minati_kernel_lancelin.git
+
+    - name: Clone NetHunter Kernel Builder
+      run: |
+        cd minati_kernel_lancelin
+        git clone https://gitlab.com/kalilinux/nethunter/build-scripts/kali-nethunter-kernel-builder.git
+
+    - name: Build Kernel
+      run: |
+        cd minati_kernel_lancelin/kali-nethunter-kernel-builder
+        ./build.sh \
+          --device lancelin \
+          --kernel-source ../
+
+    - name: Upload Kernel Image
+      uses: actions/upload-artifact@v4
+      with:
+        name: NetHunter-Kernel-Lancelin
+        path: minati_kernel_lancelin/kali-nethunter-kernel-builder/output/*.img
