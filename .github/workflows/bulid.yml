@@ -1,7 +1,7 @@
 name: Build NetHunter Kernel for Lancelin
 
 on:
-  workflow_dispatch:  # Bisa dijalankan manual dari tab "Actions"
+  workflow_dispatch:  # Bisa dijalankan manual
 
 jobs:
   build:
@@ -22,12 +22,10 @@ jobs:
         cd minati_kernel_lancelin
         git clone https://gitlab.com/kalilinux/nethunter/build-scripts/kali-nethunter-kernel-builder.git
 
-    - name: Build Kernel
+    - name: Run Non-Interactive Kernel Build
       run: |
         cd minati_kernel_lancelin/kali-nethunter-kernel-builder
-        ./build.sh \
-          --device lancelin \
-          --kernel-source ../
+        ./build.sh --device lancelin --kernel-source ../
 
     - name: Upload Kernel Image
       uses: actions/upload-artifact@v4
